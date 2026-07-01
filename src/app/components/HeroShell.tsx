@@ -35,34 +35,6 @@ export default function HeroShell({ sections }: HeroShellProps) {
   return (
     <>
       <section id="top" className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <p className={styles.kicker}>Web Developer</p>
-          <h1>
-            ユーザーの課題を
-            <br />
-            Webアプリで解決する
-          </h1>
-          <p className={styles.lead}>
-            WordPress制作からNext.js・TypeScriptを使ったWebアプリ開発まで対応。使いやすいUIと実用的なシステム開発を得意とする。
-          </p>
-          <div className={styles.heroActions}>
-            <button
-              className={styles.primaryButton}
-              onClick={() => setActiveLabel("Projects")}
-              type="button"
-            >
-              View Projects
-            </button>
-            <button
-              className={styles.secondaryButton}
-              onClick={() => setActiveLabel("Contact")}
-              type="button"
-            >
-              Contact
-            </button>
-          </div>
-        </div>
-
         <div className={styles.cubeStage} aria-label="3D cube navigation area">
           <div className={styles.stageGlow} aria-hidden="true" />
           <div
@@ -82,17 +54,49 @@ export default function HeroShell({ sections }: HeroShellProps) {
           </div>
         </div>
 
-        <aside className={styles.guidePanel}>
-          <p className={styles.panelLabel}>Cube Navigation</p>
-          <h2>
-            クリックで
-            <br />
-            キューブを回転
-          </h2>
-          <p>
-            現在選択中: {activeSection?.label ?? "Projects"}。下のボタンで面を切り替えます。
-          </p>
-        </aside>
+        <div className={styles.heroContent}>
+          <div className={styles.heroCopy}>
+            <p className={styles.kicker}>Web Developer</p>
+            <h1>
+              ユーザーの課題を、
+              <br />
+              Webアプリで解決する
+            </h1>
+            <span className={styles.heroRule} aria-hidden="true" />
+            <p className={styles.lead}>
+              WordPress制作からNext.js・TypeScriptを使ったWebアプリ開発まで対応。使いやすいUIと実用的なシステム開発を得意とする。
+            </p>
+            <div className={styles.heroActions}>
+              <button
+                className={styles.primaryButton}
+                onClick={() => setActiveLabel("Projects")}
+                type="button"
+              >
+                View Projects
+              </button>
+              <button
+                className={styles.secondaryButton}
+                onClick={() => setActiveLabel("About")}
+                type="button"
+              >
+                About Me
+              </button>
+            </div>
+          </div>
+
+          <aside className={styles.guidePanel}>
+            <div>
+              <p className={styles.panelLabel}>Cube Navigation</p>
+              <h2>クリックでキューブを回転</h2>
+              <p>
+                現在選択中: {activeSection.label}。キューブと下のカードが切り替わります。
+              </p>
+            </div>
+            <div className={styles.guideIcon} aria-hidden="true">
+              <span />
+            </div>
+          </aside>
+        </div>
       </section>
 
       <nav className={styles.sectionNav} aria-label="Portfolio sections">

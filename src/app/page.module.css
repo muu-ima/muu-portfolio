@@ -75,15 +75,21 @@
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr) minmax(220px, 0.6fr);
+  grid-template-columns: minmax(430px, 45%) minmax(0, 1fr);
   align-items: center;
-  gap: 2.5rem;
+  gap: clamp(3rem, 6vw, 5rem);
   min-height: calc(100vh - 7.5rem);
-  padding: 1rem 0 3rem;
+  padding: 1rem 0 2.5rem;
+}
+
+.heroContent {
+  display: grid;
+  gap: 2.2rem;
+  align-content: center;
 }
 
 .heroCopy {
-  max-width: 500px;
+  max-width: 620px;
 }
 
 .kicker,
@@ -100,16 +106,25 @@
 .heroCopy h1 {
   margin-top: 1rem;
   color: #f7fbff;
-  font-size: clamp(3rem, 6vw, 5.7rem);
+  font-size: clamp(3.4rem, 5.2vw, 5.8rem);
   font-weight: 800;
-  line-height: 0.98;
+  line-height: 1.06;
   text-wrap: balance;
 }
 
+.heroRule {
+  display: block;
+  width: 7rem;
+  height: 0.2rem;
+  margin-top: 1.6rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1edcff, #8f35ff);
+}
+
 .lead {
-  margin-top: 1.45rem;
+  margin-top: 1.55rem;
   color: rgba(225, 235, 255, 0.72);
-  font-size: 1rem;
+  font-size: 1.08rem;
   line-height: 1.9;
 }
 
@@ -143,37 +158,28 @@
 .cubeStage {
   position: relative;
   display: grid;
-  min-height: 440px;
+  min-height: min(48vw, 640px);
   place-items: center;
 }
 
 .stageGlow {
   position: absolute;
-  width: min(28rem, 92%);
+  width: min(42rem, 110%);
   aspect-ratio: 1;
   border-radius: 999px;
   background:
     radial-gradient(circle, rgba(117, 246, 255, 0.34), transparent 55%),
     radial-gradient(circle, rgba(143, 107, 255, 0.24), transparent 68%);
-  filter: blur(24px);
+  filter: blur(30px);
 }
 
 .cubeCanvas {
   position: relative;
   z-index: 1;
-  width: min(26rem, 86vw);
-  height: min(26rem, 86vw);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 8px;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(117, 246, 255, 0.12), transparent 58%),
-    linear-gradient(135deg, rgba(117, 246, 255, 0.08), rgba(143, 107, 255, 0.08)),
-    rgba(255, 255, 255, 0.05);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 34px 90px rgba(0, 0, 0, 0.42);
+  width: min(45vw, 620px);
+  height: min(45vw, 620px);
   cursor: pointer;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .cubeCanvas canvas {
@@ -186,17 +192,24 @@
 }
 
 .guidePanel {
-  padding: 1.15rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4.5rem;
+  gap: 1.5rem;
+  align-items: center;
+  max-width: 620px;
+  padding: 1.35rem 1.55rem;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.055);
+  background:
+    linear-gradient(135deg, rgba(117, 246, 255, 0.055), rgba(143, 107, 255, 0.055)),
+    rgba(255, 255, 255, 0.055);
   backdrop-filter: blur(20px);
 }
 
 .guidePanel h2 {
   margin-top: 0.9rem;
   color: #f7fbff;
-  font-size: 1.55rem;
+  font-size: 1.45rem;
   line-height: 1.24;
 }
 
@@ -204,6 +217,53 @@
   margin-top: 1rem;
   color: rgba(225, 235, 255, 0.68);
   line-height: 1.8;
+}
+
+.guideIcon {
+  position: relative;
+  justify-self: end;
+  width: 3.3rem;
+  height: 5.1rem;
+  border: 2px solid rgba(247, 251, 255, 0.68);
+  border-radius: 999px;
+}
+
+.guideIcon::before,
+.guideIcon::after {
+  content: "";
+  position: absolute;
+}
+
+.guideIcon::before {
+  top: -0.45rem;
+  left: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-top: 2px solid rgba(247, 251, 255, 0.5);
+  border-left: 2px solid rgba(247, 251, 255, 0.5);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.guideIcon::after {
+  top: 0.9rem;
+  left: 50%;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: #1edcff;
+  box-shadow: 0 0 18px rgba(30, 220, 255, 0.9);
+  transform: translateX(-50%);
+}
+
+.guideIcon span {
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-top: 2px solid rgba(247, 251, 255, 0.5);
+  border-radius: 999px;
+  transform: translateX(-50%);
 }
 
 .sectionNav {
@@ -485,14 +545,29 @@
   .hero {
     grid-template-columns: 1fr;
     min-height: auto;
+    gap: 2.5rem;
   }
 
   .heroCopy {
     max-width: 680px;
   }
 
+  .cubeStage {
+    min-height: min(82vw, 620px);
+    order: 2;
+  }
+
+  .cubeCanvas {
+    width: min(82vw, 620px);
+    height: min(82vw, 620px);
+  }
+
+  .heroContent {
+    order: 1;
+  }
+
   .guidePanel {
-    max-width: 28rem;
+    max-width: 100%;
   }
 
   .sectionNav,
@@ -529,6 +604,10 @@
     padding-top: 0;
   }
 
+  .heroCopy h1 {
+    font-size: clamp(3rem, 15vw, 4.2rem);
+  }
+
   .lead {
     font-size: 0.97rem;
   }
@@ -539,7 +618,20 @@
   }
 
   .cubeStage {
-    min-height: 330px;
+    min-height: min(92vw, 430px);
+  }
+
+  .cubeCanvas {
+    width: min(92vw, 430px);
+    height: min(92vw, 430px);
+  }
+
+  .guidePanel {
+    grid-template-columns: 1fr;
+  }
+
+  .guideIcon {
+    display: none;
   }
 
   .sectionNav,

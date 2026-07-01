@@ -71,7 +71,7 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
 
   return (
     <Float speed={1.35} rotationIntensity={0.18} floatIntensity={0.55}>
-      <group ref={cubeRef}>
+      <group ref={cubeRef} scale={1.22}>
         <mesh castShadow receiveShadow>
           <boxGeometry args={[2, 2, 2]} />
           <meshPhysicalMaterial
@@ -143,7 +143,7 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
 export default function HeroCube({ activeLabel }: HeroCubeProps) {
   return (
     <Canvas
-      camera={{ position: [3.35, 2.6, 4.4], fov: 42 }}
+      camera={{ position: [3.35, 2.55, 4.35], fov: 39 }}
       dpr={[1, 1.8]}
       gl={{ antialias: true, alpha: true }}
       shadows
