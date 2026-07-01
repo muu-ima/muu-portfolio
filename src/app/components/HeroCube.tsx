@@ -10,9 +10,15 @@ type CubeLabel = "Projects" | "Skills" | "About" | "Contact";
 
 type HeroCubeProps = {
   activeLabel: string;
+  onFaceSelect?: (label: CubeLabel) => void;
 };
 
-const faces = [
+const faces: Array<{
+  id: CubeLabel;
+  label: string;
+  position: [number, number, number];
+  rotation: [number, number, number];
+}> = [
   {
     id: "Projects",
     label: "PROJECTS",
@@ -50,7 +56,7 @@ function isCubeLabel(label: string): label is CubeLabel {
   return label in targetRotations;
 }
 
-function CubeMesh({ activeLabel }: HeroCubeProps) {
+function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
   const cubeRef = useRef<Group>(null);
 
   useFrame(({ clock }) => {
@@ -135,6 +141,26 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
             />
           </mesh>
         ))}
+
+        {faces.map((face) => (
+          <mesh
+            key={`${face.label}-hit-area`}
+            onClick={(event) => {
+              event.stopPropagation();
+              onFaceSelect?.(face.id);
+            }}
+            position={face.position}
+            rotation={face.rotation}
+          >
+            <planeGeometry args={[2.02, 2.02]} />
+            <meshBasicMaterial
+              depthWrite={false}
+              opacity={0}
+              side={DoubleSide}
+              transparent
+            />
+          </mesh>
+        ))}
       </group>
     </Float>
   );
@@ -185,7 +211,7 @@ function CameraTarget() {
   return null;
 }
 
-export default function HeroCube({ activeLabel }: HeroCubeProps) {
+export default function HeroCube({ activeLabel, onFaceSelect }: HeroCubeProps) {
   return (
     <Canvas
       camera={{ position: [4.8, 1.35, 8.3], fov: 32 }}
@@ -205,7 +231,7 @@ export default function HeroCube({ activeLabel }: HeroCubeProps) {
       <pointLight color="#8f6bff" intensity={2.2} position={[2.2, -1.2, -2.8]} />
       <group position={[0, 0.18, 0]}>
         <CubeBase />
-        <CubeMesh activeLabel={activeLabel} />
+        <CubeMesh activeLabel={activeLabel} onFaceSelect={onFaceSelect} />
       </group>
     </Canvas>
   );

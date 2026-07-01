@@ -27,30 +27,26 @@ export default function HeroShell({ sections }: HeroShellProps) {
     return null;
   }
 
-  const showNextSection = () => {
-    const nextIndex = activeIndex >= 0 ? (activeIndex + 1) % sections.length : 0;
-    setActiveLabel(sections[nextIndex].label);
-  };
-
   return (
     <>
       <section id="top" className={styles.hero}>
         <div className={styles.cubeStage} aria-label="3D cube navigation area">
           <div className={styles.stageGlow} aria-hidden="true" />
           <div
-            aria-label="Next cube section"
+            aria-label="Cube section selector"
             className={styles.cubeCanvas}
-            onClick={showNextSection}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                showNextSection();
+                const nextIndex =
+                  activeIndex >= 0 ? (activeIndex + 1) % sections.length : 0;
+                setActiveLabel(sections[nextIndex].label);
               }
             }}
             role="button"
             tabIndex={0}
           >
-            <HeroCube activeLabel={activeLabel} />
+            <HeroCube activeLabel={activeLabel} onFaceSelect={setActiveLabel} />
           </div>
         </div>
 
