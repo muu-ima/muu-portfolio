@@ -1,6 +1,6 @@
 "use client";
 
-import { Edges, Float, Text } from "@react-three/drei";
+import { Edges, Text } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import type { ThreeEvent } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
@@ -103,8 +103,10 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
     }
 
     if (dragRef.current.isDragging) {
+      cubeRef.current.position.y = Math.sin(elapsedTimeRef.current * 1.1) * 0.04;
       cubeRef.current.rotation.x = manualRotationRef.current.x;
       cubeRef.current.rotation.y = manualRotationRef.current.y;
+      cubeRef.current.rotation.z = Math.sin(elapsedTimeRef.current * 0.72) * 0.018;
       return;
     }
 
@@ -114,6 +116,8 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
       targetRotations[selectedLabel] + Math.sin(elapsedTime * 0.35) * 0.05;
     cubeRef.current.rotation.y = lerpAngle(cubeRef.current.rotation.y, targetY, 0.08);
     cubeRef.current.rotation.x = Math.sin(elapsedTime * 0.28) * 0.06 + 0.26;
+    cubeRef.current.rotation.z = Math.sin(elapsedTime * 0.72) * 0.018;
+    cubeRef.current.position.y = Math.sin(elapsedTime * 1.1) * 0.04;
   });
 
   const handlePointerDown = (event: CubePointerEvent) => {
@@ -173,15 +177,14 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
   };
 
   return (
-    <Float speed={1.35} rotationIntensity={0.18} floatIntensity={0.55}>
-      <group
-        onPointerDown={handlePointerDown}
-        onPointerLeave={handlePointerUp}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        ref={cubeRef}
-        scale={1.1}
-      >
+    <group
+      onPointerDown={handlePointerDown}
+      onPointerLeave={handlePointerUp}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      ref={cubeRef}
+      scale={1.1}
+    >
         <mesh>
           <boxGeometry args={[2, 2, 2]} />
           <meshPhysicalMaterial
@@ -271,8 +274,7 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
             />
           </mesh>
         ))}
-      </group>
-    </Float>
+    </group>
   );
 }
 
