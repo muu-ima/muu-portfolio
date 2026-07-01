@@ -49,14 +49,20 @@ const faces: Array<{
 ];
 
 const targetRotations: Record<CubeLabel, number> = {
-  Projects: -0.62,
+  Projects: 0,
   Skills: -Math.PI / 2,
-  About: Math.PI - 0.62,
+  About: Math.PI,
   Contact: Math.PI / 2,
 };
 
 function isCubeLabel(label: string): label is CubeLabel {
   return label in targetRotations;
+}
+
+function lerpAngle(current: number, target: number, alpha: number) {
+  const delta = Math.atan2(Math.sin(target - current), Math.cos(target - current));
+
+  return current + delta * alpha;
 }
 
 function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
@@ -86,11 +92,7 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
     const selectedLabel = isCubeLabel(activeLabel) ? activeLabel : "Projects";
     const targetY =
       targetRotations[selectedLabel] + Math.sin(clock.elapsedTime * 0.35) * 0.05;
-    cubeRef.current.rotation.y = MathUtils.lerp(
-      cubeRef.current.rotation.y,
-      targetY,
-      0.08,
-    );
+    cubeRef.current.rotation.y = lerpAngle(cubeRef.current.rotation.y, targetY, 0.08);
     cubeRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.28) * 0.06 + 0.26;
   });
 
