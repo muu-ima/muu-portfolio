@@ -1,6 +1,6 @@
 "use client";
 
-import { Edges, Float, Html } from "@react-three/drei";
+import { Edges, Float, Text } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import type { Group } from "three";
@@ -16,25 +16,25 @@ const faces = [
   {
     id: "Projects",
     label: "PROJECTS",
-    position: [0, 0, 1.01] as const,
+    position: [0, 0, 1.035] as const,
     rotation: [0, 0, 0] as const,
   },
   {
     id: "Skills",
     label: "SKILLS",
-    position: [1.01, 0, 0] as const,
+    position: [1.035, 0, 0] as const,
     rotation: [0, Math.PI / 2, 0] as const,
   },
   {
     id: "About",
     label: "ABOUT",
-    position: [0, 0, -1.01] as const,
+    position: [0, 0, -1.035] as const,
     rotation: [0, Math.PI, 0] as const,
   },
   {
     id: "Contact",
     label: "CONTACT",
-    position: [-1.01, 0, 0] as const,
+    position: [-1.035, 0, 0] as const,
     rotation: [0, -Math.PI / 2, 0] as const,
   },
 ];
@@ -89,26 +89,51 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
           <Edges color="#75f6ff" linewidth={1.4} />
         </mesh>
 
-        {faces.map((face) => (
-          <Html
-            key={face.label}
-            center
-            distanceFactor={6.2}
-            occlude
-            position={face.position}
-            rotation={face.rotation}
-            transform
-          >
-            <span
-              className={
-                face.id === activeLabel
-                  ? "cube-face-label cube-face-label-active"
-                  : "cube-face-label"
-              }
+        {faces.map((face) => {
+          const isActive = face.id === activeLabel;
+
+          return (
+            <Text
+              anchorX="center"
+              anchorY="middle"
+              color={isActive ? "#f7fbff" : "#9ff8ff"}
+              fontSize={0.16}
+              key={face.label}
+              letterSpacing={0.08}
+              outlineBlur={isActive ? 0.035 : 0.015}
+              outlineColor={isActive ? "#75f6ff" : "#071229"}
+              outlineOpacity={isActive ? 0.82 : 0.42}
+              outlineWidth={isActive ? 0.018 : 0.01}
+              position={face.position}
+              renderOrder={2}
+              rotation={face.rotation}
+              textAlign="center"
             >
               {face.label}
-            </span>
-          </Html>
+              <meshBasicMaterial
+                color={isActive ? "#f7fbff" : "#9ff8ff"}
+                toneMapped={false}
+                transparent
+              />
+            </Text>
+          );
+        })}
+
+        {faces.map((face) => (
+          <mesh
+            key={`${face.label}-plate`}
+            position={face.position}
+            renderOrder={1}
+            rotation={face.rotation}
+          >
+            <planeGeometry args={[1.18, 0.34]} />
+            <meshBasicMaterial
+              color={face.id === activeLabel ? "#75f6ff" : "#11284f"}
+              depthWrite={false}
+              opacity={face.id === activeLabel ? 0.24 : 0.16}
+              transparent
+            />
+          </mesh>
         ))}
       </group>
     </Float>

@@ -38,32 +38,3 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
-.cube-face-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 7.4rem;
-  min-height: 2.35rem;
-  border: 1px solid rgba(117, 246, 255, 0.42);
-  border-radius: 999px;
-  background: rgba(3, 4, 7, 0.64);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 12px 34px rgba(0, 0, 0, 0.34);
-  color: #f7fbff;
-  font-size: 0.78rem;
-  font-weight: 900;
-  pointer-events: none;
-  text-align: center;
-}
-
-.cube-face-label-active {
-  border-color: rgba(117, 246, 255, 0.82);
-  background:
-    linear-gradient(135deg, rgba(117, 246, 255, 0.34), rgba(143, 107, 255, 0.22)),
-    rgba(3, 4, 7, 0.72);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 0 34px rgba(117, 246, 255, 0.26);
-}
