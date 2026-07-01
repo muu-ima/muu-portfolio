@@ -78,7 +78,7 @@
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(430px, 45%) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(3rem, 6vw, 5rem);
   min-height: calc(100vh - 7.5rem);
