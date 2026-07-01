@@ -65,6 +65,22 @@ function lerpAngle(current: number, target: number, alpha: number) {
   return current + delta * alpha;
 }
 
+function getAngleDistance(current: number, target: number) {
+  return Math.abs(Math.atan2(Math.sin(target - current), Math.cos(target - current)));
+}
+
+function getNearestFaceLabel(rotationY: number) {
+  return faces.reduce<CubeLabel>((nearestLabel, face) => {
+    const nearestDistance = getAngleDistance(
+      rotationY,
+      targetRotations[nearestLabel],
+    );
+    const faceDistance = getAngleDistance(rotationY, targetRotations[face.id]);
+
+    return faceDistance < nearestDistance ? face.id : nearestLabel;
+  }, "Projects");
+}
+
 function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
   const cubeRef = useRef<Group>(null);
   const dragRef = useRef({
@@ -146,6 +162,10 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
 
     event.stopPropagation();
     dragRef.current.isDragging = false;
+
+    if (dragRef.current.hasMoved) {
+      onFaceSelect?.(getNearestFaceLabel(manualRotationRef.current.y));
+    }
   };
 
   return (
