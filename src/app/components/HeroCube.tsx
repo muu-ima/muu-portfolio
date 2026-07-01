@@ -71,7 +71,7 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
 
   return (
     <Float speed={1.35} rotationIntensity={0.18} floatIntensity={0.55}>
-      <group ref={cubeRef} scale={1.22}>
+      <group ref={cubeRef} scale={1.1}>
         <mesh castShadow receiveShadow>
           <boxGeometry args={[2, 2, 2]} />
           <meshPhysicalMaterial
@@ -142,9 +142,9 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
 
 function CubeBase() {
   return (
-    <group position={[0, -1.9, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+    <group position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
       <mesh renderOrder={0}>
-        <ringGeometry args={[1.45, 1.72, 128]} />
+        <ringGeometry args={[1.18, 1.42, 128]} />
         <meshBasicMaterial
           color="#5d7dff"
           opacity={0.42}
@@ -152,8 +152,8 @@ function CubeBase() {
           transparent
         />
       </mesh>
-      <mesh renderOrder={0} scale={[1.35, 1.35, 1]}>
-        <ringGeometry args={[1.18, 1.22, 128]} />
+      <mesh renderOrder={0} scale={[1.28, 1.28, 1]}>
+        <ringGeometry args={[0.92, 0.96, 128]} />
         <meshBasicMaterial
           color="#1edcff"
           opacity={0.3}
@@ -161,8 +161,8 @@ function CubeBase() {
           transparent
         />
       </mesh>
-      <mesh renderOrder={0} scale={[1.55, 1.55, 1]}>
-        <circleGeometry args={[1.1, 128]} />
+      <mesh renderOrder={0} scale={[1.38, 1.38, 1]}>
+        <circleGeometry args={[0.92, 128]} />
         <meshBasicMaterial
           color="#11356b"
           opacity={0.16}
@@ -178,7 +178,7 @@ function CameraTarget() {
   const { camera } = useThree();
 
   useEffect(() => {
-    camera.lookAt(0, -0.15, 0);
+    camera.lookAt(0, -0.05, 0);
     camera.updateProjectionMatrix();
   }, [camera]);
 
@@ -188,7 +188,7 @@ function CameraTarget() {
 export default function HeroCube({ activeLabel }: HeroCubeProps) {
   return (
     <Canvas
-      camera={{ position: [3.55, 1.35, 5.15], fov: 36 }}
+      camera={{ position: [4.8, 1.8, 8.3], fov: 32 }}
       dpr={[1, 1.8]}
       gl={{ antialias: true, alpha: true }}
       shadows
@@ -203,8 +203,10 @@ export default function HeroCube({ activeLabel }: HeroCubeProps) {
       />
       <pointLight color="#75f6ff" intensity={2.8} position={[-2.6, 1.2, 2.4]} />
       <pointLight color="#8f6bff" intensity={2.2} position={[2.2, -1.2, -2.8]} />
-      <CubeBase />
-      <CubeMesh activeLabel={activeLabel} />
+      <group position={[0, 0.18, 0]}>
+        <CubeBase />
+        <CubeMesh activeLabel={activeLabel} />
+      </group>
     </Canvas>
   );
 }
