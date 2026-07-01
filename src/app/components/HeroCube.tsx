@@ -1,7 +1,8 @@
 "use client";
 
-import { Edges, Float, Text } from "@react-three/drei";
+import { Edges, Text } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import type { ThreeEvent } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import type { Group } from "three";
 import { DoubleSide, MathUtils } from "three";
@@ -10,9 +11,17 @@ type CubeLabel = "Projects" | "Skills" | "About" | "Contact";
 
 type HeroCubeProps = {
   activeLabel: string;
+  onFaceSelect?: (label: CubeLabel) => void;
 };
 
-const faces = [
+type CubePointerEvent = ThreeEvent<PointerEvent>;
+
+const faces: Array<{
+  id: CubeLabel;
+  label: string;
+  position: [number, number, number];
+  rotation: [number, number, number];
+}> = [
   {
     id: "Projects",
     label: "PROJECTS",
@@ -40,9 +49,9 @@ const faces = [
 ];
 
 const targetRotations: Record<CubeLabel, number> = {
-  Projects: -0.62,
+  Projects: 0,
   Skills: -Math.PI / 2,
-  About: Math.PI - 0.62,
+  About: Math.PI,
   Contact: Math.PI / 2,
 };
 
@@ -50,29 +59,133 @@ function isCubeLabel(label: string): label is CubeLabel {
   return label in targetRotations;
 }
 
-function CubeMesh({ activeLabel }: HeroCubeProps) {
-  const cubeRef = useRef<Group>(null);
+function lerpAngle(current: number, target: number, alpha: number) {
+  const delta = Math.atan2(Math.sin(target - current), Math.cos(target - current));
 
-  useFrame(({ clock }) => {
+  return current + delta * alpha;
+}
+
+function getAngleDistance(current: number, target: number) {
+  return Math.abs(Math.atan2(Math.sin(target - current), Math.cos(target - current)));
+}
+
+function getNearestFaceLabel(rotationY: number) {
+  return faces.reduce<CubeLabel>((nearestLabel, face) => {
+    const nearestDistance = getAngleDistance(
+      rotationY,
+      targetRotations[nearestLabel],
+    );
+    const faceDistance = getAngleDistance(rotationY, targetRotations[face.id]);
+
+    return faceDistance < nearestDistance ? face.id : nearestLabel;
+  }, "Projects");
+}
+
+function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
+  const cubeRef = useRef<Group>(null);
+  const elapsedTimeRef = useRef(0);
+  const dragRef = useRef({
+    hasMoved: false,
+    isDragging: false,
+    lastX: 0,
+    lastY: 0,
+  });
+  const manualRotationRef = useRef({
+    x: 0.26,
+    y: targetRotations.Projects,
+  });
+
+  useFrame((_, delta) => {
+    elapsedTimeRef.current += delta;
+
     if (!cubeRef.current) {
       return;
     }
 
+    if (dragRef.current.isDragging) {
+      cubeRef.current.position.y = Math.sin(elapsedTimeRef.current * 1.1) * 0.04;
+      cubeRef.current.rotation.x = manualRotationRef.current.x;
+      cubeRef.current.rotation.y = manualRotationRef.current.y;
+      cubeRef.current.rotation.z = Math.sin(elapsedTimeRef.current * 0.72) * 0.018;
+      return;
+    }
+
     const selectedLabel = isCubeLabel(activeLabel) ? activeLabel : "Projects";
+    const elapsedTime = elapsedTimeRef.current;
     const targetY =
-      targetRotations[selectedLabel] + Math.sin(clock.elapsedTime * 0.35) * 0.05;
-    cubeRef.current.rotation.y = MathUtils.lerp(
-      cubeRef.current.rotation.y,
-      targetY,
-      0.08,
-    );
-    cubeRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.28) * 0.06 + 0.26;
+      targetRotations[selectedLabel] + Math.sin(elapsedTime * 0.35) * 0.05;
+    cubeRef.current.rotation.y = lerpAngle(cubeRef.current.rotation.y, targetY, 0.08);
+    cubeRef.current.rotation.x = Math.sin(elapsedTime * 0.28) * 0.06 + 0.26;
+    cubeRef.current.rotation.z = Math.sin(elapsedTime * 0.72) * 0.018;
+    cubeRef.current.position.y = Math.sin(elapsedTime * 1.1) * 0.04;
   });
 
+  const handlePointerDown = (event: CubePointerEvent) => {
+    event.stopPropagation();
+
+    if (!cubeRef.current) {
+      return;
+    }
+
+    dragRef.current = {
+      hasMoved: false,
+      isDragging: true,
+      lastX: event.nativeEvent.clientX,
+      lastY: event.nativeEvent.clientY,
+    };
+    manualRotationRef.current = {
+      x: cubeRef.current.rotation.x,
+      y: cubeRef.current.rotation.y,
+    };
+  };
+
+  const handlePointerMove = (event: CubePointerEvent) => {
+    if (!dragRef.current.isDragging || !cubeRef.current) {
+      return;
+    }
+
+    event.stopPropagation();
+
+    const dx = event.nativeEvent.clientX - dragRef.current.lastX;
+    const dy = event.nativeEvent.clientY - dragRef.current.lastY;
+
+    if (Math.abs(dx) + Math.abs(dy) > 2) {
+      dragRef.current.hasMoved = true;
+    }
+
+    manualRotationRef.current = {
+      x: MathUtils.clamp(manualRotationRef.current.x + dy * 0.004, 0.04, 0.5),
+      y: manualRotationRef.current.y + dx * 0.008,
+    };
+    dragRef.current.lastX = event.nativeEvent.clientX;
+    dragRef.current.lastY = event.nativeEvent.clientY;
+    cubeRef.current.rotation.x = manualRotationRef.current.x;
+    cubeRef.current.rotation.y = manualRotationRef.current.y;
+  };
+
+  const handlePointerUp = (event: CubePointerEvent) => {
+    if (!dragRef.current.isDragging) {
+      return;
+    }
+
+    event.stopPropagation();
+    dragRef.current.isDragging = false;
+
+    if (dragRef.current.hasMoved) {
+      onFaceSelect?.(getNearestFaceLabel(manualRotationRef.current.y));
+    }
+  };
+
   return (
-    <Float speed={1.35} rotationIntensity={0.18} floatIntensity={0.55}>
-      <group ref={cubeRef} scale={1.22}>
-        <mesh castShadow receiveShadow>
+    <group
+      onPointerDown={handlePointerDown}
+      onPointerLeave={handlePointerUp}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      ref={cubeRef}
+      scale={1.1}
+    >
+        <mesh>
           <boxGeometry args={[2, 2, 2]} />
           <meshPhysicalMaterial
             color="#16213f"
@@ -135,16 +248,41 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
             />
           </mesh>
         ))}
-      </group>
-    </Float>
+
+        {faces.map((face) => (
+          <mesh
+            key={`${face.label}-hit-area`}
+            onClick={(event) => {
+              event.stopPropagation();
+
+              if (dragRef.current.hasMoved) {
+                dragRef.current.hasMoved = false;
+                return;
+              }
+
+              onFaceSelect?.(face.id);
+            }}
+            position={face.position}
+            rotation={face.rotation}
+          >
+            <planeGeometry args={[2.02, 2.02]} />
+            <meshBasicMaterial
+              depthWrite={false}
+              opacity={0}
+              side={DoubleSide}
+              transparent
+            />
+          </mesh>
+        ))}
+    </group>
   );
 }
 
 function CubeBase() {
   return (
-    <group position={[0, -1.9, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+    <group position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
       <mesh renderOrder={0}>
-        <ringGeometry args={[1.45, 1.72, 128]} />
+        <ringGeometry args={[1.18, 1.42, 128]} />
         <meshBasicMaterial
           color="#5d7dff"
           opacity={0.42}
@@ -152,8 +290,8 @@ function CubeBase() {
           transparent
         />
       </mesh>
-      <mesh renderOrder={0} scale={[1.35, 1.35, 1]}>
-        <ringGeometry args={[1.18, 1.22, 128]} />
+      <mesh renderOrder={0} scale={[1.28, 1.28, 1]}>
+        <ringGeometry args={[0.92, 0.96, 128]} />
         <meshBasicMaterial
           color="#1edcff"
           opacity={0.3}
@@ -161,8 +299,8 @@ function CubeBase() {
           transparent
         />
       </mesh>
-      <mesh renderOrder={0} scale={[1.55, 1.55, 1]}>
-        <circleGeometry args={[1.1, 128]} />
+      <mesh renderOrder={0} scale={[1.38, 1.38, 1]}>
+        <circleGeometry args={[0.92, 128]} />
         <meshBasicMaterial
           color="#11356b"
           opacity={0.16}
@@ -178,33 +316,33 @@ function CameraTarget() {
   const { camera } = useThree();
 
   useEffect(() => {
-    camera.lookAt(0, -0.15, 0);
+    camera.lookAt(0, 0.05, 0);
     camera.updateProjectionMatrix();
   }, [camera]);
 
   return null;
 }
 
-export default function HeroCube({ activeLabel }: HeroCubeProps) {
+export default function HeroCube({ activeLabel, onFaceSelect }: HeroCubeProps) {
   return (
     <Canvas
-      camera={{ position: [3.55, 1.35, 5.15], fov: 36 }}
+      camera={{ position: [4.8, 1.35, 8.3], fov: 32 }}
       dpr={[1, 1.8]}
       gl={{ antialias: true, alpha: true }}
-      shadows
     >
       <CameraTarget />
       <ambientLight intensity={0.6} />
       <directionalLight
-        castShadow
         color="#f7fbff"
         intensity={1.45}
         position={[3.8, 4.2, 5]}
       />
       <pointLight color="#75f6ff" intensity={2.8} position={[-2.6, 1.2, 2.4]} />
       <pointLight color="#8f6bff" intensity={2.2} position={[2.2, -1.2, -2.8]} />
-      <CubeBase />
-      <CubeMesh activeLabel={activeLabel} />
+      <group position={[0, 0.18, 0]}>
+        <CubeBase />
+        <CubeMesh activeLabel={activeLabel} onFaceSelect={onFaceSelect} />
+      </group>
     </Canvas>
   );
 }

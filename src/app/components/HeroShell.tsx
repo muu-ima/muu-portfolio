@@ -27,30 +27,26 @@ export default function HeroShell({ sections }: HeroShellProps) {
     return null;
   }
 
-  const showNextSection = () => {
-    const nextIndex = activeIndex >= 0 ? (activeIndex + 1) % sections.length : 0;
-    setActiveLabel(sections[nextIndex].label);
-  };
-
   return (
     <>
       <section id="top" className={styles.hero}>
         <div className={styles.cubeStage} aria-label="3D cube navigation area">
           <div className={styles.stageGlow} aria-hidden="true" />
           <div
-            aria-label="Next cube section"
+            aria-label="Cube section selector"
             className={styles.cubeCanvas}
-            onClick={showNextSection}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                showNextSection();
+                const nextIndex =
+                  activeIndex >= 0 ? (activeIndex + 1) % sections.length : 0;
+                setActiveLabel(sections[nextIndex].label);
               }
             }}
             role="button"
             tabIndex={0}
           >
-            <HeroCube activeLabel={activeLabel} />
+            <HeroCube activeLabel={activeLabel} onFaceSelect={setActiveLabel} />
           </div>
         </div>
 
@@ -58,12 +54,13 @@ export default function HeroShell({ sections }: HeroShellProps) {
           <div className={styles.heroCopy}>
             <p className={styles.kicker}>Web Developer</p>
             <h1>
-              <span>ユーザーの課題を、</span>
-              <span>Webアプリで解決する</span>
+              <span>muu-portfolio</span>
+              <span>触ってめぐるWeb制作</span>
             </h1>
             <span className={styles.heroRule} aria-hidden="true" />
             <p className={styles.lead}>
-              WordPress制作からNext.js・TypeScriptを使ったWebアプリ開発まで対応。使いやすいUIと実用的なシステム開発を得意とする。
+              キューブを操作しながら、制作実績・スキル・プロフィールをめぐれるポートフォリオです。
+              Next.jsとTypeScriptを使ったWebアプリ開発を中心に制作しています。
             </p>
             <div className={styles.heroActions}>
               <button
@@ -84,13 +81,24 @@ export default function HeroShell({ sections }: HeroShellProps) {
           </div>
 
           <aside className={styles.guidePanel}>
-            <div>
-              <p className={styles.panelLabel}>Cube Navigation</p>
-              <h2>クリックでキューブを回転</h2>
-              <p>
-                現在選択中: {activeSection.label}。キューブと下のカードが切り替わります。
-              </p>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: -12 }}
+                key={activeSection.label}
+                transition={{ duration: 0.24, ease: "easeOut" }}
+              >
+                <p className={styles.panelLabel}>Selected</p>
+                <h2>{activeSection.label}</h2>
+                <p className={styles.guideDescription}>
+                  {activeSection.description}
+                </p>
+                <a className={styles.guideLink} href={activeSection.href}>
+                  Open {activeSection.label}
+                </a>
+              </motion.div>
+            </AnimatePresence>
             <div className={styles.guideIcon} aria-hidden="true">
               <span />
             </div>
