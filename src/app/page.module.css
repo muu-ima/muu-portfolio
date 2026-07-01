@@ -36,7 +36,7 @@
 .contactSection {
   position: relative;
   z-index: 1;
-  width: min(1180px, 100%);
+  width: min(1280px, 100%);
   margin: 0 auto;
 }
 
@@ -106,10 +106,14 @@
 .heroCopy h1 {
   margin-top: 1rem;
   color: #f7fbff;
-  font-size: clamp(3.4rem, 5.2vw, 5.8rem);
+  font-size: clamp(2.55rem, 3.55vw, 4.05rem);
   font-weight: 800;
   line-height: 1.06;
-  text-wrap: balance;
+}
+
+.heroCopy h1 span {
+  display: block;
+  white-space: nowrap;
 }
 
 .heroRule {
@@ -605,7 +609,11 @@
   }
 
   .heroCopy h1 {
-    font-size: clamp(3rem, 15vw, 4.2rem);
+    font-size: clamp(2.35rem, 11vw, 3.25rem);
+  }
+
+  .heroCopy h1 span {
+    white-space: normal;
   }
 
   .lead {

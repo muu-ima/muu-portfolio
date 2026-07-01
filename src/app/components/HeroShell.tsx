@@ -58,9 +58,8 @@ export default function HeroShell({ sections }: HeroShellProps) {
           <div className={styles.heroCopy}>
             <p className={styles.kicker}>Web Developer</p>
             <h1>
-              ユーザーの課題を、
-              <br />
-              Webアプリで解決する
+              <span>ユーザーの課題を、</span>
+              <span>Webアプリで解決する</span>
             </h1>
             <span className={styles.heroRule} aria-hidden="true" />
             <p className={styles.lead}>

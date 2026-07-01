@@ -4,7 +4,7 @@ import { Edges, Float, Text } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import type { Group } from "three";
-import { MathUtils } from "three";
+import { DoubleSide, MathUtils } from "three";
 
 type CubeLabel = "Projects" | "Skills" | "About" | "Contact";
 
@@ -140,6 +140,40 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
   );
 }
 
+function CubeBase() {
+  return (
+    <group position={[0, -1.9, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh renderOrder={0}>
+        <ringGeometry args={[1.45, 1.72, 128]} />
+        <meshBasicMaterial
+          color="#5d7dff"
+          opacity={0.42}
+          side={DoubleSide}
+          transparent
+        />
+      </mesh>
+      <mesh renderOrder={0} scale={[1.35, 1.35, 1]}>
+        <ringGeometry args={[1.18, 1.22, 128]} />
+        <meshBasicMaterial
+          color="#1edcff"
+          opacity={0.3}
+          side={DoubleSide}
+          transparent
+        />
+      </mesh>
+      <mesh renderOrder={0} scale={[1.55, 1.55, 1]}>
+        <circleGeometry args={[1.1, 128]} />
+        <meshBasicMaterial
+          color="#11356b"
+          opacity={0.16}
+          side={DoubleSide}
+          transparent
+        />
+      </mesh>
+    </group>
+  );
+}
+
 export default function HeroCube({ activeLabel }: HeroCubeProps) {
   return (
     <Canvas
@@ -157,6 +191,7 @@ export default function HeroCube({ activeLabel }: HeroCubeProps) {
       />
       <pointLight color="#75f6ff" intensity={2.8} position={[-2.6, 1.2, 2.4]} />
       <pointLight color="#8f6bff" intensity={2.2} position={[2.2, -1.2, -2.8]} />
+      <CubeBase />
       <CubeMesh activeLabel={activeLabel} />
     </Canvas>
   );
