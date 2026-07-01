@@ -30,7 +30,8 @@
 }
 
 .header,
-.hero {
+.hero,
+.footer {
   position: relative;
   z-index: 1;
   width: 100%;
@@ -59,6 +60,7 @@
 }
 
 .headerNav a,
+.footer a,
 .secondaryButton {
   display: inline-flex;
   align-items: center;
@@ -285,8 +287,30 @@
   transform: translateX(-50%);
 }
 
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.25rem 0.35rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(225, 235, 255, 0.58);
+  font-size: 0.9rem;
+}
+
+.footer span {
+  color: rgba(247, 251, 255, 0.78);
+  font-weight: 800;
+}
+
+.footer nav {
+  display: flex;
+  gap: 0.65rem;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .headerNav a,
+  .footer a,
   .primaryButton,
   .secondaryButton,
   .cubeCanvas {
@@ -297,6 +321,7 @@
   }
 
   .headerNav a:hover,
+  .footer a:hover,
   .secondaryButton:hover {
     opacity: 0.72;
   }
@@ -344,7 +369,8 @@
   }
 
   .header,
-  .hero {
+  .hero,
+  .footer {
     padding-inline: 1rem;
   }
 
@@ -360,6 +386,12 @@
 
   .headerNav a {
     flex: 1;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-bottom: 1rem;
   }
 
   .hero {

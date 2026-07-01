@@ -50,6 +50,20 @@ export default function Home() {
       </header>
 
       <HeroShell sections={sections} />
+
+      <footer className={styles.footer}>
+        <span>muu-portfolio</span>
+        <nav aria-label="Footer navigation">
+          <a
+            href="https://github.com/muu-ima/muu-portfolio"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
+          <a href="mailto:hello@example.com">Contact</a>
+        </nav>
+      </footer>
     </main>
   );
 }
