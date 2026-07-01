@@ -1,8 +1,8 @@
 "use client";
 
 import { Edges, Float, Text } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
 import type { Group } from "three";
 import { DoubleSide, MathUtils } from "three";
 
@@ -66,7 +66,7 @@ function CubeMesh({ activeLabel }: HeroCubeProps) {
       targetY,
       0.08,
     );
-    cubeRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.28) * 0.08 + 0.38;
+    cubeRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.28) * 0.06 + 0.26;
   });
 
   return (
@@ -174,14 +174,26 @@ function CubeBase() {
   );
 }
 
+function CameraTarget() {
+  const { camera } = useThree();
+
+  useEffect(() => {
+    camera.lookAt(0, -0.15, 0);
+    camera.updateProjectionMatrix();
+  }, [camera]);
+
+  return null;
+}
+
 export default function HeroCube({ activeLabel }: HeroCubeProps) {
   return (
     <Canvas
-      camera={{ position: [3.35, 2.55, 4.35], fov: 39 }}
+      camera={{ position: [3.55, 1.35, 5.15], fov: 36 }}
       dpr={[1, 1.8]}
       gl={{ antialias: true, alpha: true }}
       shadows
     >
+      <CameraTarget />
       <ambientLight intensity={0.6} />
       <directionalLight
         castShadow
