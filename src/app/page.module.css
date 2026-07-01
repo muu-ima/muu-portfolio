@@ -186,8 +186,13 @@
   z-index: 1;
   width: min(42vw, 660px);
   height: min(42vw, 660px);
-  cursor: pointer;
+  cursor: grab;
   overflow: visible;
+  touch-action: none;
+}
+
+.cubeCanvas:active {
+  cursor: grabbing;
 }
 
 .cubeCanvas canvas {

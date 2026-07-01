@@ -2,6 +2,7 @@
 
 import { Edges, Float, Text } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import type { ThreeEvent } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import type { Group } from "three";
 import { DoubleSide, MathUtils } from "three";
@@ -12,6 +13,8 @@ type HeroCubeProps = {
   activeLabel: string;
   onFaceSelect?: (label: CubeLabel) => void;
 };
+
+type CubePointerEvent = ThreeEvent<PointerEvent>;
 
 const faces: Array<{
   id: CubeLabel;
@@ -58,9 +61,25 @@ function isCubeLabel(label: string): label is CubeLabel {
 
 function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
   const cubeRef = useRef<Group>(null);
+  const dragRef = useRef({
+    hasMoved: false,
+    isDragging: false,
+    lastX: 0,
+    lastY: 0,
+  });
+  const manualRotationRef = useRef({
+    x: 0.26,
+    y: targetRotations.Projects,
+  });
 
   useFrame(({ clock }) => {
     if (!cubeRef.current) {
+      return;
+    }
+
+    if (dragRef.current.isDragging) {
+      cubeRef.current.rotation.x = manualRotationRef.current.x;
+      cubeRef.current.rotation.y = manualRotationRef.current.y;
       return;
     }
 
@@ -75,9 +94,68 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
     cubeRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.28) * 0.06 + 0.26;
   });
 
+  const handlePointerDown = (event: CubePointerEvent) => {
+    event.stopPropagation();
+
+    if (!cubeRef.current) {
+      return;
+    }
+
+    dragRef.current = {
+      hasMoved: false,
+      isDragging: true,
+      lastX: event.nativeEvent.clientX,
+      lastY: event.nativeEvent.clientY,
+    };
+    manualRotationRef.current = {
+      x: cubeRef.current.rotation.x,
+      y: cubeRef.current.rotation.y,
+    };
+  };
+
+  const handlePointerMove = (event: CubePointerEvent) => {
+    if (!dragRef.current.isDragging || !cubeRef.current) {
+      return;
+    }
+
+    event.stopPropagation();
+
+    const dx = event.nativeEvent.clientX - dragRef.current.lastX;
+    const dy = event.nativeEvent.clientY - dragRef.current.lastY;
+
+    if (Math.abs(dx) + Math.abs(dy) > 2) {
+      dragRef.current.hasMoved = true;
+    }
+
+    manualRotationRef.current = {
+      x: MathUtils.clamp(manualRotationRef.current.x + dy * 0.004, 0.04, 0.5),
+      y: manualRotationRef.current.y + dx * 0.008,
+    };
+    dragRef.current.lastX = event.nativeEvent.clientX;
+    dragRef.current.lastY = event.nativeEvent.clientY;
+    cubeRef.current.rotation.x = manualRotationRef.current.x;
+    cubeRef.current.rotation.y = manualRotationRef.current.y;
+  };
+
+  const handlePointerUp = (event: CubePointerEvent) => {
+    if (!dragRef.current.isDragging) {
+      return;
+    }
+
+    event.stopPropagation();
+    dragRef.current.isDragging = false;
+  };
+
   return (
     <Float speed={1.35} rotationIntensity={0.18} floatIntensity={0.55}>
-      <group ref={cubeRef} scale={1.1}>
+      <group
+        onPointerDown={handlePointerDown}
+        onPointerLeave={handlePointerUp}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        ref={cubeRef}
+        scale={1.1}
+      >
         <mesh castShadow receiveShadow>
           <boxGeometry args={[2, 2, 2]} />
           <meshPhysicalMaterial
@@ -147,6 +225,12 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
             key={`${face.label}-hit-area`}
             onClick={(event) => {
               event.stopPropagation();
+
+              if (dragRef.current.hasMoved) {
+                dragRef.current.hasMoved = false;
+                return;
+              }
+
               onFaceSelect?.(face.id);
             }}
             position={face.position}
