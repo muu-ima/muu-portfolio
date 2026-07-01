@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import HeroCube from "./HeroCube";
 import styles from "../page.module.css";
@@ -20,6 +21,16 @@ export default function HeroShell({ sections }: HeroShellProps) {
   const [activeLabel, setActiveLabel] = useState(sections[0]?.label ?? "Projects");
   const activeSection =
     sections.find((section) => section.label === activeLabel) ?? sections[0];
+  const activeIndex = sections.findIndex((section) => section.label === activeLabel);
+
+  if (!activeSection) {
+    return null;
+  }
+
+  const showNextSection = () => {
+    const nextIndex = activeIndex >= 0 ? (activeIndex + 1) % sections.length : 0;
+    setActiveLabel(sections[nextIndex].label);
+  };
 
   return (
     <>
@@ -54,7 +65,19 @@ export default function HeroShell({ sections }: HeroShellProps) {
 
         <div className={styles.cubeStage} aria-label="3D cube navigation area">
           <div className={styles.stageGlow} aria-hidden="true" />
-          <div className={styles.cubeCanvas}>
+          <div
+            aria-label="Next cube section"
+            className={styles.cubeCanvas}
+            onClick={showNextSection}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                showNextSection();
+              }
+            }}
+            role="button"
+            tabIndex={0}
+          >
             <HeroCube activeLabel={activeLabel} />
           </div>
         </div>
@@ -86,6 +109,28 @@ export default function HeroShell({ sections }: HeroShellProps) {
           </button>
         ))}
       </nav>
+
+      <div className={styles.selectedPanelWrap}>
+        <AnimatePresence mode="wait">
+          <motion.article
+            animate={{ opacity: 1, y: 0 }}
+            className={styles.selectedPanel}
+            exit={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 10 }}
+            key={activeSection.label}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+          >
+            <div>
+              <p>{activeSection.eyebrow}</p>
+              <h2>{activeSection.title}</h2>
+            </div>
+            <div>
+              <span>{activeSection.description}</span>
+              <a href={activeSection.href}>Open {activeSection.label}</a>
+            </div>
+          </motion.article>
+        </AnimatePresence>
+      </div>
     </>
   );
 }

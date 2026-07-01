@@ -122,6 +122,8 @@
 
 .primaryButton,
 .secondaryButton {
+  cursor: pointer;
+  font: inherit;
   font-weight: 800;
 }
 
@@ -170,11 +172,17 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.24),
     0 34px 90px rgba(0, 0, 0, 0.42);
+  cursor: pointer;
   overflow: hidden;
 }
 
 .cubeCanvas canvas {
   display: block;
+}
+
+.cubeCanvas:focus-visible {
+  outline: 2px solid rgba(117, 246, 255, 0.72);
+  outline-offset: 4px;
 }
 
 .guidePanel {
@@ -202,7 +210,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.75rem;
-  padding: 0 0 4rem;
+  padding: 0 0 1rem;
 }
 
 .sectionNav button {
@@ -236,6 +244,56 @@
     linear-gradient(135deg, rgba(117, 246, 255, 0.16), rgba(143, 107, 255, 0.12)),
     rgba(255, 255, 255, 0.06) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.selectedPanelWrap {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, 100%);
+  min-height: 10.5rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+.selectedPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+  gap: 2rem;
+  min-height: 10.5rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(117, 246, 255, 0.2);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(117, 246, 255, 0.08), rgba(143, 107, 255, 0.06)),
+    rgba(255, 255, 255, 0.045);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.selectedPanel p {
+  color: #75f6ff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.selectedPanel h2 {
+  margin-top: 1rem;
+  color: #f7fbff;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.08;
+}
+
+.selectedPanel span {
+  display: block;
+  color: rgba(225, 235, 255, 0.7);
+  line-height: 1.85;
+}
+
+.selectedPanel a {
+  display: inline-flex;
+  margin-top: 1.3rem;
+  color: #75f6ff;
+  font-weight: 800;
 }
 
 .contentSection,
@@ -322,6 +380,7 @@
   .headerNav a,
   .primaryButton,
   .secondaryButton,
+  .cubeCanvas,
   .sectionNav button,
   .projectCard,
   .contactSection a {
@@ -338,6 +397,7 @@
   }
 
   .primaryButton:hover,
+  .cubeCanvas:hover,
   .sectionNav button:hover,
   .projectCard:hover {
     transform: translateY(-3px);
@@ -364,6 +424,7 @@
   }
 
   .sectionNav,
+  .selectedPanel,
   .cardGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -407,12 +468,17 @@
   }
 
   .sectionNav,
+  .selectedPanel,
   .cardGrid,
   .sectionHeading {
     grid-template-columns: 1fr;
   }
 
   .sectionNav {
+    padding-bottom: 1rem;
+  }
+
+  .selectedPanelWrap {
     padding-bottom: 2.5rem;
   }
 
