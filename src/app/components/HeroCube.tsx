@@ -123,7 +123,6 @@ export default function HeroCube({ activeLabel }: HeroCubeProps) {
       gl={{ antialias: true, alpha: true }}
       shadows
     >
-      <color attach="background" args={["transparent"]} />
       <ambientLight intensity={0.6} />
       <directionalLight
         castShadow

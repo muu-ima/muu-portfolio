@@ -326,7 +326,9 @@
 }
 
 .projectCard {
-  min-height: 16rem;
+  display: flex;
+  min-height: 18rem;
+  flex-direction: column;
   padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
@@ -347,11 +349,47 @@
   line-height: 1.85;
 }
 
+.projectStack,
 .skillList {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   list-style: none;
+}
+
+.projectStack {
+  margin-top: auto;
+  padding-top: 1.4rem;
+}
+
+.projectStack li {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: rgba(225, 235, 255, 0.66);
+  font-size: 0.82rem;
+}
+
+.skillGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.skillCard {
+  min-height: 15rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(117, 246, 255, 0.06), rgba(143, 107, 255, 0.05)),
+    rgba(255, 255, 255, 0.045);
+}
+
+.skillCard h3 {
+  margin-bottom: 1.2rem;
+  color: #f7fbff;
+  font-size: 1.35rem;
 }
 
 .skillList li {
@@ -366,6 +404,40 @@
 .bodyText {
   max-width: 45rem;
   font-size: 1.05rem;
+}
+
+.aboutBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.aboutBody ul {
+  display: grid;
+  gap: 0.85rem;
+  list-style: none;
+}
+
+.aboutBody li {
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  color: rgba(225, 235, 255, 0.72);
+}
+
+.contactSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
+  gap: 2rem;
+  align-items: end;
+}
+
+.contactBody span {
+  display: block;
+  color: rgba(225, 235, 255, 0.7);
+  line-height: 1.85;
 }
 
 .contactSection a {
@@ -425,7 +497,10 @@
 
   .sectionNav,
   .selectedPanel,
-  .cardGrid {
+  .cardGrid,
+  .skillGrid,
+  .aboutBody,
+  .contactSection {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -470,6 +545,9 @@
   .sectionNav,
   .selectedPanel,
   .cardGrid,
+  .skillGrid,
+  .aboutBody,
+  .contactSection,
   .sectionHeading {
     grid-template-columns: 1fr;
   }
