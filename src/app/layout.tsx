@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "KIYONO Portfolio",
-  description: "静かな余白とやわらかな質感で見せるポートフォリオサイト。",
+  title: "muu-portfolio",
+  description: "3Dキューブナビゲーションで見せるポートフォリオサイト。",
 };
 
 export default function RootLayout({

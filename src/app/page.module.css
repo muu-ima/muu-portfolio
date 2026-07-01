@@ -205,12 +205,16 @@
   padding: 0 0 4rem;
 }
 
-.sectionNav a {
+.sectionNav button {
   min-height: 7rem;
   padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.045);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
 }
 
 .sectionNav span {
@@ -224,6 +228,14 @@
   margin-top: 1.4rem;
   color: #f7fbff;
   font-size: 1.15rem;
+}
+
+.activeNavItem {
+  border-color: rgba(117, 246, 255, 0.52) !important;
+  background:
+    linear-gradient(135deg, rgba(117, 246, 255, 0.16), rgba(143, 107, 255, 0.12)),
+    rgba(255, 255, 255, 0.06) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .contentSection,
@@ -310,7 +322,7 @@
   .headerNav a,
   .primaryButton,
   .secondaryButton,
-  .sectionNav a,
+  .sectionNav button,
   .projectCard,
   .contactSection a {
     transition:
@@ -326,12 +338,12 @@
   }
 
   .primaryButton:hover,
-  .sectionNav a:hover,
+  .sectionNav button:hover,
   .projectCard:hover {
     transform: translateY(-3px);
   }
 
-  .sectionNav a:hover,
+  .sectionNav button:hover,
   .projectCard:hover {
     border-color: rgba(117, 246, 255, 0.34);
   }

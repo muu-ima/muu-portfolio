@@ -1,4 +1,4 @@
-import HeroCube from "./components/HeroCube";
+import HeroShell from "./components/HeroShell";
 import styles from "./page.module.css";
 
 const sections = [
@@ -45,7 +45,7 @@ export default function Home() {
 
       <header className={styles.header}>
         <a href="#top" className={styles.logo}>
-          KIYONO
+          muu-portfolio
         </a>
         <nav className={styles.headerNav} aria-label="Primary navigation">
           <a href="https://github.com/" target="_blank" rel="noreferrer">
@@ -55,55 +55,7 @@ export default function Home() {
         </nav>
       </header>
 
-      <section id="top" className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <p className={styles.kicker}>Web Developer</p>
-          <h1>
-            ユーザーの課題を
-            <br />
-            Webアプリで解決する
-          </h1>
-          <p className={styles.lead}>
-            WordPress制作からNext.js・TypeScriptを使ったWebアプリ開発まで対応。使いやすいUIと実用的なシステム開発を得意とする。
-          </p>
-          <div className={styles.heroActions}>
-            <a href="#projects" className={styles.primaryButton}>
-              View Projects
-            </a>
-            <a href="#contact" className={styles.secondaryButton}>
-              Contact
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.cubeStage} aria-label="3D cube navigation area">
-          <div className={styles.stageGlow} aria-hidden="true" />
-          <div className={styles.cubeCanvas}>
-            <HeroCube />
-          </div>
-        </div>
-
-        <aside className={styles.guidePanel}>
-          <p className={styles.panelLabel}>Cube Navigation</p>
-          <h2>
-            クリックで
-            <br />
-            ページを切り替え
-          </h2>
-          <p>
-            現在選択中のセクションを表示。初期表示はProjectsです。
-          </p>
-        </aside>
-      </section>
-
-      <nav className={styles.sectionNav} aria-label="Portfolio sections">
-        {sections.map((section) => (
-          <a key={section.label} href={section.href}>
-            <span>{section.label}</span>
-            <strong>{section.title}</strong>
-          </a>
-        ))}
-      </nav>
+      <HeroShell sections={sections} />
 
       <section id="projects" className={styles.contentSection}>
         <div className={styles.sectionHeading}>

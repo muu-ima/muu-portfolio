@@ -57,3 +57,13 @@ a {
   pointer-events: none;
   text-align: center;
 }
+
+.cube-face-label-active {
+  border-color: rgba(117, 246, 255, 0.82);
+  background:
+    linear-gradient(135deg, rgba(117, 246, 255, 0.34), rgba(143, 107, 255, 0.22)),
+    rgba(3, 4, 7, 0.72);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 34px rgba(117, 246, 255, 0.26);
+}
