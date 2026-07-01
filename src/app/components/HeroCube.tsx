@@ -83,6 +83,7 @@ function getNearestFaceLabel(rotationY: number) {
 
 function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
   const cubeRef = useRef<Group>(null);
+  const elapsedTimeRef = useRef(0);
   const dragRef = useRef({
     hasMoved: false,
     isDragging: false,
@@ -94,7 +95,9 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
     y: targetRotations.Projects,
   });
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
+    elapsedTimeRef.current += delta;
+
     if (!cubeRef.current) {
       return;
     }
@@ -106,10 +109,11 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
     }
 
     const selectedLabel = isCubeLabel(activeLabel) ? activeLabel : "Projects";
+    const elapsedTime = elapsedTimeRef.current;
     const targetY =
-      targetRotations[selectedLabel] + Math.sin(clock.elapsedTime * 0.35) * 0.05;
+      targetRotations[selectedLabel] + Math.sin(elapsedTime * 0.35) * 0.05;
     cubeRef.current.rotation.y = lerpAngle(cubeRef.current.rotation.y, targetY, 0.08);
-    cubeRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.28) * 0.06 + 0.26;
+    cubeRef.current.rotation.x = Math.sin(elapsedTime * 0.28) * 0.06 + 0.26;
   });
 
   const handlePointerDown = (event: CubePointerEvent) => {
@@ -178,7 +182,7 @@ function CubeMesh({ activeLabel, onFaceSelect }: HeroCubeProps) {
         ref={cubeRef}
         scale={1.1}
       >
-        <mesh castShadow receiveShadow>
+        <mesh>
           <boxGeometry args={[2, 2, 2]} />
           <meshPhysicalMaterial
             color="#16213f"
@@ -323,12 +327,10 @@ export default function HeroCube({ activeLabel, onFaceSelect }: HeroCubeProps) {
       camera={{ position: [4.8, 1.35, 8.3], fov: 32 }}
       dpr={[1, 1.8]}
       gl={{ antialias: true, alpha: true }}
-      shadows
     >
       <CameraTarget />
       <ambientLight intensity={0.6} />
       <directionalLight
-        castShadow
         color="#f7fbff"
         intensity={1.45}
         position={[3.8, 4.2, 5]}

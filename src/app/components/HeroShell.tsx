@@ -82,9 +82,9 @@ export default function HeroShell({ sections }: HeroShellProps) {
           <aside className={styles.guidePanel}>
             <div>
               <p className={styles.panelLabel}>Cube Navigation</p>
-              <h2>クリックでキューブを回転</h2>
+              <h2>ドラッグとクリックで操作</h2>
               <p>
-                現在選択中: {activeSection.label}。キューブと下のカードが切り替わります。
+                現在選択中: {activeSection.label}。離すと近い面へ吸着します。
               </p>
             </div>
             <div className={styles.guideIcon} aria-hidden="true">
