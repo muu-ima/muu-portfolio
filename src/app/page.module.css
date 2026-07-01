@@ -220,16 +220,29 @@
 }
 
 .guidePanel h2 {
-  margin-top: 0.9rem;
+  margin-top: 0.75rem;
   color: #f7fbff;
-  font-size: 1.45rem;
+  font-size: 1.85rem;
   line-height: 1.24;
 }
 
-.guidePanel p:last-child {
-  margin-top: 1rem;
+.guideDescription {
+  margin-top: 0.9rem;
   color: rgba(225, 235, 255, 0.68);
   line-height: 1.8;
+}
+
+.guideLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.4rem;
+  margin-top: 1.15rem;
+  color: #75f6ff;
+  font-weight: 800;
+}
+
+.guideLink:hover {
+  color: #f7fbff;
 }
 
 .guideIcon {

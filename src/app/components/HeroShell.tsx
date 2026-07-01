@@ -54,12 +54,13 @@ export default function HeroShell({ sections }: HeroShellProps) {
           <div className={styles.heroCopy}>
             <p className={styles.kicker}>Web Developer</p>
             <h1>
-              <span>ユーザーの課題を、</span>
-              <span>Webアプリで解決する</span>
+              <span>muu-portfolio</span>
+              <span>触ってめぐるWeb制作</span>
             </h1>
             <span className={styles.heroRule} aria-hidden="true" />
             <p className={styles.lead}>
-              WordPress制作からNext.js・TypeScriptを使ったWebアプリ開発まで対応。使いやすいUIと実用的なシステム開発を得意とする。
+              キューブを操作しながら、制作実績・スキル・プロフィールをめぐれるポートフォリオです。
+              Next.jsとTypeScriptを使ったWebアプリ開発を中心に制作しています。
             </p>
             <div className={styles.heroActions}>
               <button
@@ -80,13 +81,24 @@ export default function HeroShell({ sections }: HeroShellProps) {
           </div>
 
           <aside className={styles.guidePanel}>
-            <div>
-              <p className={styles.panelLabel}>Cube Navigation</p>
-              <h2>ドラッグとクリックで操作</h2>
-              <p>
-                現在選択中: {activeSection.label}。離すと近い面へ吸着します。
-              </p>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: -12 }}
+                key={activeSection.label}
+                transition={{ duration: 0.24, ease: "easeOut" }}
+              >
+                <p className={styles.panelLabel}>Selected</p>
+                <h2>{activeSection.label}</h2>
+                <p className={styles.guideDescription}>
+                  {activeSection.description}
+                </p>
+                <a className={styles.guideLink} href={activeSection.href}>
+                  Open {activeSection.label}
+                </a>
+              </motion.div>
+            </AnimatePresence>
             <div className={styles.guideIcon} aria-hidden="true">
               <span />
             </div>
