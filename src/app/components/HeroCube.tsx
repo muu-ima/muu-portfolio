@@ -178,7 +178,7 @@ function CameraTarget() {
   const { camera } = useThree();
 
   useEffect(() => {
-    camera.lookAt(0, -0.05, 0);
+    camera.lookAt(0, 0.05, 0);
     camera.updateProjectionMatrix();
   }, [camera]);
 
@@ -188,7 +188,7 @@ function CameraTarget() {
 export default function HeroCube({ activeLabel }: HeroCubeProps) {
   return (
     <Canvas
-      camera={{ position: [4.8, 1.8, 8.3], fov: 32 }}
+      camera={{ position: [4.8, 1.35, 8.3], fov: 32 }}
       dpr={[1, 1.8]}
       gl={{ antialias: true, alpha: true }}
       shadows
