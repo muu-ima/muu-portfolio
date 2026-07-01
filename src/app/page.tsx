@@ -1,3 +1,4 @@
+import HeroCube from "./components/HeroCube";
 import styles from "./page.module.css";
 
 const sections = [
@@ -76,10 +77,10 @@ export default function Home() {
         </div>
 
         <div className={styles.cubeStage} aria-label="3D cube navigation area">
-          <div className={styles.cubePlaceholder} aria-hidden="true">
-            <span>PROJECTS</span>
-          </div>
           <div className={styles.stageGlow} aria-hidden="true" />
+          <div className={styles.cubeCanvas}>
+            <HeroCube />
+          </div>
         </div>
 
         <aside className={styles.guidePanel}>
