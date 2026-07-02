@@ -31,10 +31,7 @@
 
 .header,
 .hero,
-.sectionNav,
-.selectedPanelWrap,
-.contentSection,
-.contactSection {
+.footer {
   position: relative;
   z-index: 1;
   width: 100%;
@@ -63,6 +60,7 @@
 }
 
 .headerNav a,
+.footer a,
 .secondaryButton {
   display: inline-flex;
   align-items: center;
@@ -96,10 +94,7 @@
 }
 
 .kicker,
-.panelLabel,
-.sectionHeading p,
-.contactSection p,
-.projectCard p {
+.panelLabel {
   color: #75f6ff;
   font-size: 0.78rem;
   font-weight: 800;
@@ -292,252 +287,33 @@
   transform: translateX(-50%);
 }
 
-.sectionNav {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.75rem;
-  padding-block: 0 1rem;
-}
-
-.sectionNav button {
-  min-height: 7rem;
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.045);
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-}
-
-.sectionNav span {
-  display: block;
-  color: rgba(225, 235, 255, 0.56);
-  font-size: 0.82rem;
-}
-
-.sectionNav strong {
-  display: block;
-  margin-top: 1.4rem;
-  color: #f7fbff;
-  font-size: 1.15rem;
-}
-
-.activeNavItem {
-  border-color: rgba(117, 246, 255, 0.52) !important;
-  background:
-    linear-gradient(135deg, rgba(117, 246, 255, 0.16), rgba(143, 107, 255, 0.12)),
-    rgba(255, 255, 255, 0.06) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-
-.selectedPanelWrap {
-  min-height: 10.5rem;
-  padding-bottom: 4rem;
-}
-
-.selectedPanel {
-  display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
-  gap: 2rem;
-  min-height: 10.5rem;
-  padding: 1.2rem;
-  border: 1px solid rgba(117, 246, 255, 0.2);
-  border-radius: 8px;
-  background:
-    linear-gradient(135deg, rgba(117, 246, 255, 0.08), rgba(143, 107, 255, 0.06)),
-    rgba(255, 255, 255, 0.045);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.selectedPanel p {
-  color: #75f6ff;
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.selectedPanel h2 {
-  margin-top: 1rem;
-  color: #f7fbff;
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
-  line-height: 1.08;
-}
-
-.selectedPanel span {
-  display: block;
-  color: rgba(225, 235, 255, 0.7);
-  line-height: 1.85;
-}
-
-.selectedPanel a {
-  display: inline-flex;
-  margin-top: 1.3rem;
-  color: #75f6ff;
-  font-weight: 800;
-}
-
-.contentSection,
-.contactSection {
-  padding-block: 4rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.11);
-}
-
-.sectionHeading {
-  display: grid;
-  grid-template-columns: 0.42fr 1fr;
-  gap: 2rem;
-  align-items: end;
-  margin-bottom: 1.75rem;
-}
-
-.sectionHeading h2,
-.contactSection h2 {
-  max-width: 18ch;
-  color: #f7fbff;
-  font-size: clamp(2rem, 4vw, 3.35rem);
-  line-height: 1.08;
-  text-wrap: balance;
-}
-
-.cardGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.9rem;
-}
-
-.projectCard {
+.footer {
   display: flex;
-  min-height: 18rem;
-  flex-direction: column;
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.045);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.25rem 0.35rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(225, 235, 255, 0.58);
+  font-size: 0.9rem;
 }
 
-.projectCard h3 {
-  margin-top: 1rem;
-  color: #f7fbff;
-  font-size: 1.55rem;
+.footer span {
+  color: rgba(247, 251, 255, 0.78);
+  font-weight: 800;
 }
 
-.projectCard span,
-.bodyText {
-  display: block;
-  margin-top: 1rem;
-  color: rgba(225, 235, 255, 0.68);
-  line-height: 1.85;
-}
-
-.projectStack,
-.skillList {
+.footer nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  list-style: none;
-}
-
-.projectStack {
-  margin-top: auto;
-  padding-top: 1.4rem;
-}
-
-.projectStack li {
-  padding: 0.55rem 0.7rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  color: rgba(225, 235, 255, 0.66);
-  font-size: 0.82rem;
-}
-
-.skillGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.9rem;
-}
-
-.skillCard {
-  min-height: 15rem;
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background:
-    linear-gradient(135deg, rgba(117, 246, 255, 0.06), rgba(143, 107, 255, 0.05)),
-    rgba(255, 255, 255, 0.045);
-}
-
-.skillCard h3 {
-  margin-bottom: 1.2rem;
-  color: #f7fbff;
-  font-size: 1.35rem;
-}
-
-.skillList li {
-  padding: 0.85rem 1rem;
-  border: 1px solid rgba(117, 246, 255, 0.22);
-  border-radius: 999px;
-  background: rgba(117, 246, 255, 0.07);
-  color: rgba(247, 251, 255, 0.86);
-  font-weight: 800;
-}
-
-.bodyText {
-  max-width: 45rem;
-  font-size: 1.05rem;
-}
-
-.aboutBody {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
-  gap: 2rem;
-  align-items: start;
-}
-
-.aboutBody ul {
-  display: grid;
-  gap: 0.85rem;
-  list-style: none;
-}
-
-.aboutBody li {
-  padding: 0.9rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.045);
-  color: rgba(225, 235, 255, 0.72);
-}
-
-.contactSection {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
-  gap: 2rem;
-  align-items: end;
-}
-
-.contactBody span {
-  display: block;
-  color: rgba(225, 235, 255, 0.7);
-  line-height: 1.85;
-}
-
-.contactSection a {
-  display: inline-flex;
-  margin-top: 1.5rem;
-  color: #75f6ff;
-  font-size: 1.25rem;
-  font-weight: 800;
+  gap: 0.65rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .headerNav a,
+  .footer a,
   .primaryButton,
   .secondaryButton,
-  .cubeCanvas,
-  .sectionNav button,
-  .projectCard,
-  .contactSection a {
+  .cubeCanvas {
     transition:
       border-color 180ms ease,
       opacity 180ms ease,
@@ -545,21 +321,14 @@
   }
 
   .headerNav a:hover,
-  .secondaryButton:hover,
-  .contactSection a:hover {
+  .footer a:hover,
+  .secondaryButton:hover {
     opacity: 0.72;
   }
 
   .primaryButton:hover,
-  .cubeCanvas:hover,
-  .sectionNav button:hover,
-  .projectCard:hover {
+  .cubeCanvas:hover {
     transform: translateY(-3px);
-  }
-
-  .sectionNav button:hover,
-  .projectCard:hover {
-    border-color: rgba(117, 246, 255, 0.34);
   }
 }
 
@@ -592,15 +361,6 @@
   .guidePanel {
     max-width: 100%;
   }
-
-  .sectionNav,
-  .selectedPanel,
-  .cardGrid,
-  .skillGrid,
-  .aboutBody,
-  .contactSection {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 640px) {
@@ -610,10 +370,7 @@
 
   .header,
   .hero,
-  .sectionNav,
-  .selectedPanelWrap,
-  .contentSection,
-  .contactSection {
+  .footer {
     padding-inline: 1rem;
   }
 
@@ -629,6 +386,12 @@
 
   .headerNav a {
     flex: 1;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-bottom: 1rem;
   }
 
   .hero {
@@ -668,28 +431,5 @@
 
   .guideIcon {
     display: none;
-  }
-
-  .sectionNav,
-  .selectedPanel,
-  .cardGrid,
-  .skillGrid,
-  .aboutBody,
-  .contactSection,
-  .sectionHeading {
-    grid-template-columns: 1fr;
-  }
-
-  .sectionNav {
-    padding-bottom: 1rem;
-  }
-
-  .selectedPanelWrap {
-    padding-bottom: 2.5rem;
-  }
-
-  .contentSection,
-  .contactSection {
-    padding: 3rem 0;
   }
 }
